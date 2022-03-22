@@ -26,6 +26,9 @@ public class Main {
         
         System.out.println();
         
+        linkedList.addToEndList("рысь");
+        linkedList.printAllList();
+        
         System.out.println(emptyLinkedList.countListElements());
         System.out.println(linkedList.countListElements());      
         System.out.println(oneElemeentList.countListElements());
