@@ -42,14 +42,14 @@ public class SinglyLinkedList {
     public int countListElements() {
         if(getFirstNode() == null)
               return 0;
-        else if(getFirstNode().linkToNext == null) 
+        else if(getFirstNode() != null && getFirstNode().linkToNext == null) 
               return 1;
         else {
-              int count = 10;
-        while(getFirstNode().linkToNext != null) {
-              count = count + 1;
+            int count = 0;
+        while(getFirstNode() != null && getFirstNode().linkToNext != null) {
+              count++;
               firstNode = getFirstNode().linkToNext;
-            if(getFirstNode().linkToNext == null)
+            if(getFirstNode() != null &&getFirstNode().linkToNext == null)
                count++;
             }
         return count;

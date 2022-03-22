@@ -17,14 +17,19 @@ public class Main {
         linkedList.printAllList();
         emptyLinkedList.printAllList();
         oneElemeentList.printAllList();
+        
         System.out.println();
+        
         linkedList.isEmptyList();
         emptyLinkedList.isEmptyList();
         oneElemeentList.isEmptyList(); 
+        
         System.out.println();
+        
+        System.out.println(emptyLinkedList.countListElements());
+        System.out.println(linkedList.countListElements());      
         System.out.println(oneElemeentList.countListElements());
-        System.out.println(linkedList.countListElements());
-        System.out.println(emptyLinkedList.countListElements());      
+    
     }
 }
 
