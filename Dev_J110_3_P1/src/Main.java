@@ -28,10 +28,21 @@ public class Main {
         
         linkedList.addToEndList("рысь");
         linkedList.printAllList();
-        
+        System.out.println();
         System.out.println(emptyLinkedList.countListElements());
         System.out.println(linkedList.countListElements());      
         System.out.println(oneElemeentList.countListElements());
+        System.out.println();
+        System.out.println(linkedList.extractFirstData());
+        System.out.println();
+        System.out.println(linkedList.extractAndRemoveFirstData());
+        System.out.println();
+        linkedList.printAllList();
+        System.out.println();
+        System.out.println(linkedList.extractEndData());
+        System.out.println();
+        linkedList.printAllList();
+        
     
     }
 }
