@@ -1,57 +1,128 @@
 
 public class SinglyLinkedList {
 
-    private Node firstNode; 
-
-    public Node getFirstNode() {
-        return firstNode;
-    }
-    
+    private Node firstNode; //изначально null
+  
     //Метод добавляет данные в начало списка.
-    public void addToListFirst(String nodeData) {
-        Node current = new Node();
-        current.nodeData = nodeData;
-        current.linkToNext = firstNode;
-        firstNode = current; 
-    }
-    
-    //Извлечение значения из начала списка без его удаления из списка;
-    public String extractFirstData () {
-        return firstNode.nodeData;        
-    }   
-    //извлечение значения из начала списка с удалением из списка
-    public String extractAndRemoveFirstData () {
-        String dataFirst = firstNode.nodeData;
-        firstNode = firstNode.linkToNext;
-        return dataFirst;
-    }
-    //добавление значения в конец списка.
-    public void addToEndList(String nodeData) {
-        Node newNode = new Node(); 
-        newNode.nodeData = nodeData; 
-        Node current = firstNode;
-        while (current.linkToNext != null) {
-            current = current.linkToNext;
-        }
-        current.linkToNext = newNode;
-    }
-    //Извлечение значения из конца списка без его удаления;
-    public String extractEndData() {
-        return iteration().nodeData;
-    }
-    //Извлечение значения из конца списка с удалением;
-    public String extractAndRemoveEndData() {
-        String endData = iteration().nodeData;
-        return endData;
+    public void addToListFirst(String data) {
+        Node newNode = new Node();
+        newNode.nodeData = data;
+        newNode.linkToNext = firstNode;
+        firstNode = newNode;
     }
 
-    //метод печатает данные из всего списка
+    //извлечение значения из начала списка без его удаления из списка
+    public String extractFirstFromList() {
+        if (firstNode != null)
+            return firstNode.nodeData;
+        else
+            throw new NullPointerException("Список пустой.");       
+    }
+
+    //Извлечение значения из начала списка с удалением его из списка
+    public String extractFirstAndRemoveFromList() {
+        if (firstNode != null) {
+            String firstNodeData = firstNode.nodeData;
+            firstNode = firstNode.linkToNext;
+            return firstNodeData;  }
+        else
+            throw new NullPointerException("Список пустой.");
+    }
+
+    //добавление значения в конец списка
+    public void addToTailList(String data) {
+        Node newNode = new Node();
+        newNode.nodeData = data;
+        if (firstNode == null) {
+            addToListFirst(data);
+        } else if (firstNode.linkToNext == null) {
+            firstNode.linkToNext = newNode;
+        } else {
+            Node current = firstNode;
+            while (current.linkToNext != null) {
+                current = current.linkToNext;
+            }
+            current.linkToNext = newNode;
+        }
+    }
+
+    //извлечение значения из конца списка без его удаления
+    public String extractTailDataFromList() {
+        if (firstNode != null) {
+            Node current = firstNode;
+            while (current.linkToNext != null) {
+                   current = current.linkToNext; }
+            return current.nodeData; }        
+        else
+            throw new NullPointerException("Список пустой.");   
+    }
+
+    //извлечение значения из конца списка с удалением
+    public String extractTailAndRemoveFromList() {
+
+        if (firstNode != null && firstNode.linkToNext == null) {
+            String data = firstNode.nodeData;
+            firstNode = null;
+            return data; }
+
+        else if (firstNode != null && firstNode.linkToNext != null) {
+            Node current = firstNode;
+            Node temp = firstNode;
+            while (current.linkToNext != null) {
+                  temp = current;
+                  current = current.linkToNext;
+                }
+            String data = current.nodeData;
+            current = temp;
+            current.linkToNext = null;
+            return data;    
+        }
+        else 
+            throw new NullPointerException("Список пустой.");
+    }
+    
+    //Метод, определяющий, содержит ли список заданное значение, или нет
+
+    public boolean isInList(String toEquals) {
+        
+        Node current = firstNode;
+        Boolean result = false;
+        
+        if (current == null) 
+            return false;
+        else if (current.linkToNext == null) {
+            return toEquals.equals(current.nodeData);
+        } 
+        else 
+        {
+            while (current.linkToNext != null) {
+                if (toEquals.equals(current.nodeData)) {
+                    result = true;
+                    current = current.linkToNext;
+                } 
+                else 
+                    current = current.linkToNext;                
+            }
+            if (toEquals.equals(current.nodeData)) 
+                result = true;            
+        return result;
+        }
+    }
+    
+       //Метод, определяющий, является ли список пустым, или нет;
+    
+    public boolean isEmptyList() {
+        return firstNode == null;
+    }
+
+    //печать всех значений списка
     public void printAllList() {
         Node current = firstNode;
         if (current == null) {
-            System.out.println("Список пустой");
+            System.out.println("Элементы списка отсутствуют, список пустой.");
         } else if (current.linkToNext == null) {
             current.printNodeData();
+            System.out.println();
         } else {
             while (current.linkToNext != null) {
                 current.printNodeData();
@@ -60,26 +131,41 @@ public class SinglyLinkedList {
                     current.printNodeData();
                 }
             }
+            System.out.println();
+        }
+    }
+
+    //Метод удаляющий заданное значение из списка; если значения в списке нет, то ничего происходить не должно.
+    public void removeFromListIfHas(String toRemove) {
+
+        if (firstNode != null) {
+            if (firstNode.linkToNext != null) {
+                if (toRemove.equals(firstNode.nodeData)) {
+                    firstNode = firstNode.linkToNext;
+                    //return; 
+                }
+                Node current = firstNode;
+                while (current.linkToNext != null) {
+                    if (toRemove.equals(current.linkToNext.nodeData)) {
+                        current.linkToNext = current.linkToNext.linkToNext;
+                        //return; 
+                        //Сейчас удаляет все одинаковые искомые элементы, если одинаковых искомых элементов несколько. 
+                        //Если нужно удалить единожды первый встретившийся - убрать коммент с return.
+                    } 
+                    else {
+                        current = current.linkToNext;
+                    }
+                }
+            } 
+            else {
+                if (toRemove.equals(firstNode.nodeData)) {
+                    firstNode = null;
+                }
+            }
         }
     }
     
-    public Node iteration(){
-        Node current = firstNode;
-        while (current.linkToNext != null) {
-            current = current.linkToNext;
-        }
-        return current;
-    }
-
-    //Метод определяет пустой список или нет
-    public void isEmptyList() {
-        if (getFirstNode() == null) {
-            System.out.println("Список пустой");
-        } else {
-            System.out.println("Список содержит данные");
-        }
-    }
-    ////Метод, возвращающий количество элементов списка.
+    //Метод, возвращающий количество элементов списка.
     public int countListElements() {
         Node current = firstNode;
         if (current == null) {
@@ -88,10 +174,10 @@ public class SinglyLinkedList {
             return 1;
         } else {
             int count = 0;
-            while (current != null && current.linkToNext != null) {
+            while (current.linkToNext != null) {
                 current = current.linkToNext;
                 count++;
-                if (current != null && current.linkToNext == null) {
+                if (current.linkToNext == null) {
                     count++;
                 }
             }
@@ -99,13 +185,14 @@ public class SinglyLinkedList {
         }
     }
 
+// вложенный класс Node  в сущностях которого хранятся данные и ссылка на следующий узел.
     class Node {
 
         public String nodeData;
         public Node linkToNext;
 
         public void printNodeData() {
-            System.out.println(nodeData);
+            System.out.print(nodeData + "; ");
         }
     }
 }
