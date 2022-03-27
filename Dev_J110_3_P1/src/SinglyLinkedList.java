@@ -10,6 +10,25 @@ public class SinglyLinkedList {
         newNode.linkToNext = firstNode;
         firstNode = newNode;
     }
+    
+    //Метод добавляет данные в начало списка из массива с сохранением порядка.
+    public void addToListFromArray(String[] data) {
+        for (String s : data) {
+            Node newNode = new Node();
+            newNode.nodeData = s;
+            if (firstNode == null) {
+                addToListFirst(s);
+            } else if (firstNode.linkToNext == null) {
+                firstNode.linkToNext = newNode;
+            } else {
+                Node current = firstNode;
+                while (current.linkToNext != null) {
+                    current = current.linkToNext;
+                }
+                current.linkToNext = newNode;
+            }
+        }
+    }
 
     //извлечение значения из начала списка без его удаления из списка
     public String extractFirstFromList() {
